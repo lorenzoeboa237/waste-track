@@ -1,0 +1,17 @@
+{
+  "name": "waste-management-api",
+  "version": "1.0.0",
+  "description": "API backend Gestion des déchets (MongoDB)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "seed": "node seed-mongo.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongodb": "^6.10.0"
+  }
+}

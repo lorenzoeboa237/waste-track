@@ -1,0 +1,11 @@
+{
+  "short_name": "WasteTracker CM",
+  "name": "Gestion des déchets – Cameroun",
+  "description": "Tableau de bord de gestion des déchets pour la collecte et le traitement au Cameroun.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#15803d",
+  "background_color": "#fafafa",
+  "lang": "fr",
+  "icons": []
+}

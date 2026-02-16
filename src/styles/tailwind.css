@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Thème Recyclage : blanc, noir, vert, rouge, bleu */
+    --color-primary: #15803d; /* Vert recyclage */
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #2563eb; /* Bleu (eau, propreté) */
+    --color-secondary-foreground: #ffffff;
+    --color-accent: #16a34a; /* Vert accent */
+    --color-accent-foreground: #ffffff;
+    --color-background: #fafafa; /* Blanc cassé */
+    --color-foreground: #0a0a0a; /* Noir */
+    --color-card: #ffffff;
+    --color-card-foreground: #171717;
+    --color-popover: #ffffff;
+    --color-popover-foreground: #171717;
+    --color-muted: #e5e5e5; /* Gris très clair */
+    --color-muted-foreground: #525252;
+    --color-border: #e5e5e5;
+    --color-input: #e5e5e5;
+    --color-ring: #15803d;
+    --color-success: #16a34a; /* Vert */
+    --color-success-foreground: #ffffff;
+    --color-warning: #ca8a04; /* Ambre pour alertes */
+    --color-warning-foreground: #0a0a0a;
+    --color-error: #dc2626; /* Rouge */
+    --color-error-foreground: #ffffff;
+    --color-destructive: #dc2626;
+    --color-destructive-foreground: #ffffff;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --shadow-sm: 0 1px 3px rgba(21, 128, 61, 0.08);
+    --shadow-md: 0 4px 12px rgba(21, 128, 61, 0.1);
+    --shadow-lg: 0 8px 24px rgba(21, 128, 61, 0.12);
+    --shadow-xl: 0 16px 40px rgba(21, 128, 61, 0.14);
+    --shadow-2xl: 0 24px 48px rgba(21, 128, 61, 0.16);
+  }
+
+  .dark {
+    --color-primary: #22c55e;
+    --color-primary-foreground: #0a0a0a;
+    --color-secondary: #3b82f6;
+    --color-secondary-foreground: #ffffff;
+    --color-accent: #4ade80;
+    --color-accent-foreground: #0a0a0a;
+    --color-background: #0a0a0a;
+    --color-foreground: #fafafa;
+    --color-card: #171717;
+    --color-card-foreground: #fafafa;
+    --color-popover: #171717;
+    --color-popover-foreground: #fafafa;
+    --color-muted: #262626;
+    --color-muted-foreground: #a3a3a3;
+    --color-border: #262626;
+    --color-input: #262626;
+    --color-ring: #22c55e;
+    --color-success: #22c55e;
+    --color-success-foreground: #0a0a0a;
+    --color-warning: #eab308;
+    --color-warning-foreground: #0a0a0a;
+    --color-error: #ef4444;
+    --color-error-foreground: #ffffff;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+    --shadow-sm: 0 0 12px rgba(34, 197, 94, 0.15);
+    --shadow-md: 0 0 20px rgba(34, 197, 94, 0.18);
+    --shadow-lg: 0 0 28px rgba(34, 197, 94, 0.2);
+    --shadow-xl: 0 0 36px rgba(34, 197, 94, 0.22);
+    --shadow-2xl: 0 0 48px rgba(34, 197, 94, 0.25);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  h5 {
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  caption, label, .caption {
+    font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    letter-spacing: 0.025em;
+  }
+
+  code, pre, .monospace {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 15px;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .transition-smooth {
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .transition-spring {
+    transition: all 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .shadow-elevation-1 {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-elevation-2 {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-elevation-3 {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .shadow-elevation-4 {
+    box-shadow: var(--shadow-xl);
+  }
+
+  .shadow-elevation-5 {
+    box-shadow: var(--shadow-2xl);
+  }
+
+  .focus-ring {
+    @apply outline-none ring-3 ring-ring ring-offset-3 ring-offset-background;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    @apply bg-muted rounded-full;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+    border-radius: 9999px;
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Liens dans le thème recyclage */
+  a[class*="text-primary"]:hover {
+    filter: brightness(1.1);
+  }
+
+  /* Cartes avec bordure légère */
+  .card-recycle {
+    @apply bg-card border border-border rounded-lg shadow-elevation-2 transition-smooth;
+  }
+  .card-recycle:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
