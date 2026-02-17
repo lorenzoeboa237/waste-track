@@ -127,7 +127,7 @@ const Header = () => {
           <div className="relative shrink-0" ref={userMenuRef}>
             <button
               onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="flex items-center gap-2 px-2 sm:px-3 py-1.5 bg-muted/50 rounded-md hover:bg-muted transition-smooth min-w-0"
+              className="flex items-center gap-2 px-2 sm:px-3 py-1.5 min-h-[44px] sm:min-h-0 bg-muted/50 rounded-md hover:bg-muted active:bg-muted/80 transition-smooth min-w-0 touch-manipulation"
               aria-label="Menu utilisateur"
               aria-expanded={userMenuOpen}
             >
@@ -147,36 +147,36 @@ const Header = () => {
             </button>
 
             {userMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-popover rounded-md shadow-elevation-3 py-2 z-[1100] animate-slide-in border border-border">
+              <div className="absolute right-0 top-full mt-2 w-52 min-w-[12rem] bg-popover rounded-lg shadow-elevation-3 py-1 z-[1100] animate-slide-in border border-border">
                 <button
                   type="button"
                   onClick={handleParametres}
-                  className="w-full px-4 py-2 text-left text-sm text-popover-foreground hover:bg-muted transition-smooth flex items-center gap-2"
+                  className="w-full px-4 min-h-[44px] text-left text-sm text-popover-foreground hover:bg-muted active:bg-muted/80 transition-smooth flex items-center gap-2 touch-manipulation rounded-md mx-1"
                 >
-                  <Icon name="Settings" size={16} color="var(--color-foreground)" />
+                  <Icon name="Settings" size={18} color="var(--color-foreground)" />
                   Paramètres
                 </button>
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="w-full px-4 py-2 text-left text-sm text-popover-foreground hover:bg-muted transition-smooth flex items-center gap-2"
+                  className="w-full px-4 min-h-[44px] text-left text-sm text-popover-foreground hover:bg-muted active:bg-muted/80 transition-smooth flex items-center gap-2 touch-manipulation rounded-md mx-1"
                 >
-                  <Icon name="LogOut" size={16} color="var(--color-foreground)" />
+                  <Icon name="LogOut" size={18} color="var(--color-foreground)" />
                   Déconnexion
                 </button>
               </div>
             )}
           </div>
 
-          {/* Mobile Menu Toggle - affiché sur écrans plus petits que lg */}
+          {/* Mobile Menu Toggle - zone tactile 44px min (recommandation accessibilité) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-md hover:bg-muted transition-smooth shrink-0"
-            aria-label="Ouvrir le menu"
+            className="lg:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md hover:bg-muted active:bg-muted/80 transition-smooth shrink-0 touch-manipulation"
+            aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
             <Icon 
               name={mobileMenuOpen ? "X" : "Menu"} 
-              size={24} 
+              size={26} 
               color="var(--color-foreground)" 
             />
           </button>
@@ -184,36 +184,38 @@ const Header = () => {
       </div>
       {/* Mobile / Tablette Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-14 sm:top-[60px] left-0 right-0 bg-card shadow-elevation-3 z-[1100] animate-slide-in">
-          <nav className="flex flex-col p-4 gap-2">
+        <div className="lg:hidden absolute top-14 sm:top-[60px] left-0 right-0 bg-card shadow-elevation-3 z-[1100] animate-slide-in max-h-[calc(100vh-3.5rem)] overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom)]">
+          <nav className="flex flex-col p-3 gap-1">
             {navigationItems?.map((item) => (
               <Link
                 key={item?.path}
                 to={item?.path}
                 onClick={() => handleNavigation(item?.path)}
                 className={`
-                  flex items-center gap-3 px-4 py-3 rounded-md
-                  transition-smooth font-medium text-sm
+                  flex items-center gap-3 px-4 min-h-[48px] rounded-lg
+                  transition-smooth font-medium text-sm touch-manipulation
+                  active:scale-[0.98] active:opacity-95
                   ${isActivePath(item?.path)
                     ? 'bg-primary text-primary-foreground shadow-elevation-1'
-                    : 'text-foreground hover:bg-muted'
+                    : 'text-foreground hover:bg-muted active:bg-muted/80'
                   }
                 `}
               >
                 <Icon 
                   name={item?.icon} 
-                  size={20} 
+                  size={22} 
                   color={isActivePath(item?.path) ? 'currentColor' : 'var(--color-foreground)'} 
+                  className="shrink-0"
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col text-left min-w-0 flex-1">
                   <span>{item?.label}</span>
-                  <span className="text-xs opacity-70 font-caption">{item?.description}</span>
+                  <span className="text-xs opacity-70 font-caption truncate">{item?.description}</span>
                 </div>
               </Link>
             ))}
 
             {/* Mobile System Status */}
-            <div className="flex items-center gap-2 px-4 py-3 mt-2 bg-muted/50 rounded-md">
+            <div className="flex items-center gap-2 px-4 min-h-[44px] mt-2 bg-muted/50 rounded-lg">
               <div className={`w-2 h-2 rounded-full ${getStatusColor()} ${systemStatus === 'syncing' ? 'animate-pulse-subtle' : ''}`} />
               <span className="text-sm font-caption text-muted-foreground">
                 {getStatusLabel()}
