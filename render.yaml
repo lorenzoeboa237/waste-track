@@ -1,0 +1,16 @@
+# Render – Un seul service fullstack (API + frontend)
+# Build : frontend (Vite) puis deps server ; démarrage : Express sert l'API + les fichiers statiques.
+# Mode d'emploi : docs/MODE-EMPLOI-DEPLOIEMENT-RENDER-FULLSTACK.md
+services:
+  - type: web
+    name: waste-track
+    runtime: node
+    buildCommand: npm install && npm run build && cd server && npm install
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    plan: free
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: waste_db

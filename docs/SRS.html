@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spécification des exigences logicielles – Gestion des déchets Cameroun</title>
+  <style>
+    :root {
+      --color-primary: #2d5016;
+      --color-primary-light: #4a7c23;
+      --color-bg: #fafafa;
+      --color-card: #ffffff;
+      --color-border: #e5e7eb;
+      --color-text: #1f2937;
+      --color-muted: #6b7280;
+      --color-success: #15803d;
+      --color-warning: #ca8a04;
+      --color-error: #b91c1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      margin: 0;
+      padding: 0 1rem 3rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cover {
+      text-align: center;
+      padding: 3rem 1rem 4rem;
+      border-bottom: 3px solid var(--color-primary);
+    }
+    .cover h1 {
+      font-size: 1.75rem;
+      color: var(--color-primary);
+      margin: 0 0 0.5rem;
+      font-weight: 700;
+    }
+    .cover .subtitle {
+      font-size: 1.125rem;
+      color: var(--color-muted);
+      margin: 0 0 2rem;
+    }
+    .cover .meta {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+    }
+    h2 {
+      font-size: 1.35rem;
+      color: var(--color-primary);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+    h3 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; color: var(--color-text); }
+    h4 { font-size: 1rem; margin: 1.25rem 0 0.5rem; color: var(--color-muted); }
+    p { margin: 0 0 0.75rem; }
+    ul, ol { margin: 0 0 0.75rem; padding-left: 1.5rem; }
+    li { margin: 0.25rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      background: var(--color-card);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid var(--color-border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    th {
+      background: var(--color-primary);
+      color: white;
+      font-weight: 600;
+    }
+    tr:nth-child(even) { background: #f9fafb; }
+    code {
+      background: #f3f4f6;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.875em;
+    }
+    pre {
+      background: #1f2937;
+      color: #e5e7eb;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.8rem;
+      margin: 1rem 0;
+    }
+    .toc {
+      background: var(--color-card);
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      margin: 2rem 0;
+    }
+    .toc h2 { margin-top: 0; }
+    .toc ul { list-style: none; padding-left: 0; }
+    .toc li { margin: 0.4rem 0; }
+    .toc a { color: var(--color-primary); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .req-id { font-weight: 600; color: var(--color-primary); }
+    .note {
+      background: #fef3c7;
+      border-left: 4px solid var(--color-warning);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    @media print {
+      body { background: white; padding: 0; }
+      .cover { border-bottom-color: var(--color-primary); }
+      table { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cover">
+    <h1>Spécification des exigences logicielles (SRS)</h1>
+    <p class="subtitle">Système de gestion des déchets – Contexte Cameroun (type HYSACAM)</p>
+    <p class="meta">Projet L3 · Waste Management System · Document de référence</p>
+    <p class="meta">Version 1.0 · Février 2026</p>
+    <p class="meta" style="margin-top: 1.5rem;">Par <strong>Lorenzo Eboa</strong>, Computer and Electronics Engineering, Year 3, Rousseau Higher Institute of Technology</p>
+  </header>
+
+  <nav class="toc" aria-label="Table des matières">
+    <h2>Table des matières</h2>
+    <ul>
+      <li><a href="#s1">1. Introduction</a></li>
+      <li><a href="#s2">2. Description générale</a></li>
+      <li><a href="#s3">3. Exigences fonctionnelles</a></li>
+      <li><a href="#s4">4. Interfaces externes</a></li>
+      <li><a href="#s5">5. Modèle de données</a></li>
+      <li><a href="#s6">6. Exigences non fonctionnelles</a></li>
+      <li><a href="#s7">7. Annexes</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section id="s1">
+      <h2>1. Introduction</h2>
+
+      <h3>1.1 Objectif du document</h3>
+      <p>Ce document décrit les exigences fonctionnelles et non fonctionnelles du système de gestion opérationnelle de la collecte des déchets, conçu pour un contexte de type HYSACAM (Yaoundé, Douala, Cameroun). Il sert de référence pour le développement, les tests et la maintenance.</p>
+
+      <h3>1.2 Périmètre du produit</h3>
+      <p>Le système couvre&nbsp;:</p>
+      <ul>
+        <li>Un <strong>tableau de bord opérationnel</strong> (collecte du jour, indicateurs, alertes).</li>
+        <li>La <strong>planification et le suivi des tournées</strong> de collecte (affectation chauffeur, camion, unité, date, statut, avancement).</li>
+        <li>La gestion des <strong>chauffeurs</strong>, <strong>camions</strong> (bennes), <strong>unités opérationnelles</strong> et <strong>sites</strong> (centres de transfert).</li>
+        <li>Une <strong>interface web</strong> responsive et une <strong>API REST</strong> pour la persistance (MongoDB ou localStorage en mode déconnecté).</li>
+      </ul>
+      <p>Hors périmètre dans cette version&nbsp;: authentification multi-utilisateurs, facturation, géolocalisation temps réel, application mobile dédiée.</p>
+
+      <h3>1.3 Définitions et acronymes</h3>
+      <table>
+        <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+        <tbody>
+          <tr><td>HYSACAM</td><td>Hygiène et Salubrité du Cameroun – opérateur de collecte des ordures ménagères (contexte de référence).</td></tr>
+          <tr><td>Tournée</td><td>Circuit de collecte planifié, affecté à un chauffeur et un véhicule, pour une date donnée.</td></tr>
+          <tr><td>Unité opérationnelle</td><td>Entité organisationnelle (ex. Unité Yaoundé-Centre) regroupant secteurs et moyens.</td></tr>
+          <tr><td>Site</td><td>Centre de transfert ou de regroupement des déchets ; capacité et statut sont suivis.</td></tr>
+          <tr><td>SRS</td><td>Software Requirements Specification – Spécification des exigences logicielles.</td></tr>
+          <tr><td>API</td><td>Application Programming Interface – interface REST exposée par le backend.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>1.4 Références</h3>
+      <ul>
+        <li>README du projet – description fonctionnelle et démarrage.</li>
+        <li>DEPLOYMENT.md – procédures d’hébergement (Netlify, Railway, MongoDB Atlas).</li>
+        <li>Documentation technique : Vite, React, Express, MongoDB.</li>
+      </ul>
+    </section>
+
+    <section id="s2">
+      <h2>2. Description générale</h2>
+
+      <h3>2.1 Perspective du produit</h3>
+      <p>L’application est une <strong>application web monopage (SPA)</strong> côté client (React, Vite) et un <strong>serveur API</strong> (Node.js, Express) optionnel. Les données peuvent être stockées soit en base MongoDB (mode connecté), soit en localStorage (mode déconnecté ou démo). Le déploiement cible frontend (Netlify) et backend (Railway), avec MongoDB Atlas pour la base de données.</p>
+
+      <h3>2.2 Fonctions principales</h3>
+      <ul>
+        <li><strong>Tableau de bord</strong> : synthèse du jour (nombre de tournées, terminées, ponctualité, en retard), liste des sites à évacuer (capacité ≥ seuil), liste des tournées en retard.</li>
+        <li><strong>Tournées</strong> : création, modification, suppression ; filtrage par date ; affectation chauffeur, camion, unité ; statut (À l’heure, En retard, Critique) et pourcentage d’avancement.</li>
+        <li><strong>Chauffeurs, camions, unités, sites</strong> : CRUD complet (liste, ajout, modification, suppression).</li>
+        <li><strong>Paramètres</strong> : page dédiée (accessible depuis le menu utilisateur).</li>
+        <li><strong>API REST</strong> : ressources /api/chauffeurs, /api/camions, /api/unites, /api/sites, /api/tournees (GET, POST, PUT, DELETE) et /api/health.</li>
+      </ul>
+
+      <h3>2.3 Classes d’utilisateurs</h3>
+      <table>
+        <thead><tr><th>Classe</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Responsable opérations</td><td>Consulte le tableau de bord, les alertes, planifie et suit les tournées.</td></tr>
+          <tr><td>Administrateur de données</td><td>Gère les chauffeurs, camions, unités et sites (CRUD).</td></tr>
+          <tr><td>Utilisateur final</td><td>Accède à l’ensemble des écrans ; pas de distinction de rôles dans la version actuelle.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2.4 Contraintes</h3>
+      <ul>
+        <li>Interface en français.</li>
+        <li>Compatibilité navigateurs modernes (Chrome, Firefox, Safari, Edge).</li>
+        <li>Responsive (mobile, tablette, bureau).</li>
+        <li>Backend optionnel : l’application doit fonctionner sans API (données en localStorage).</li>
+      </ul>
+    </section>
+
+    <section id="s3">
+      <h2>3. Exigences fonctionnelles</h2>
+
+      <h3>3.1 Tableau de bord</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-DB-01</td><td>Afficher le nombre de tournées prévues pour la date du jour.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-DB-02</td><td>Afficher le nombre de tournées terminées (avancement ≥ 100 %) sur le total du jour.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-DB-03</td><td>Calculer et afficher le pourcentage de ponctualité (tournées « À l’heure » / total).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-DB-04</td><td>Afficher le nombre de tournées en retard (statut « En retard » ou « Critique »).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-DB-05</td><td>Lister les sites dont la capacité est ≥ 85 % (seuil configurable en dur) avec nom et capacité.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-DB-06</td><td>Lister les tournées du jour en retard avec nom, chauffeur (résolu), statut.</td><td>Haute</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.2 Tournées</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-TO-01</td><td>Afficher la liste des tournées avec possibilité de filtrer par date.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-TO-02</td><td>Permettre la création d’une tournée : nom, chauffeur (sélection), camion (sélection), unité (sélection), statut, secteur, date prévue, pourcentage d’avancement.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-TO-03</td><td>Permettre la modification d’une tournée existante (mêmes champs).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-TO-04</td><td>Permettre la suppression d’une tournée après confirmation.</td><td>Moyenne</td></tr>
+          <tr><td class="req-id">FR-TO-05</td><td>Statuts possibles : À l’heure, En retard, Critique. Avancement entre 0 et 100 %.</td><td>Haute</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.3 Chauffeurs</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-CH-01</td><td>Afficher la liste des chauffeurs (nom, téléphone).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-CH-02</td><td>Permettre l’ajout d’un chauffeur (nom, téléphone).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-CH-03</td><td>Permettre la modification d’un chauffeur.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-CH-04</td><td>Permettre la suppression d’un chauffeur.</td><td>Moyenne</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.4 Camions</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-CA-01</td><td>Afficher la liste des camions (numéro, capacité).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-CA-02</td><td>Permettre l’ajout, la modification et la suppression d’un camion.</td><td>Haute</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.5 Unités</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-UN-01</td><td>Afficher la liste des unités opérationnelles (nom, secteur).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-UN-02</td><td>Permettre l’ajout, la modification et la suppression d’une unité.</td><td>Haute</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.6 Sites</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-SI-01</td><td>Afficher la liste des sites (nom, capacité %, statut).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-SI-02</td><td>Permettre l’ajout, la modification et la suppression d’un site (nom, capacité 0–100, statut).</td><td>Haute</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.7 Paramètres et navigation</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-NA-01</td><td>Menu de navigation : Tableau de bord, Tournées, Sites, Chauffeurs, Camions, Unités.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-NA-02</td><td>Menu utilisateur : accès à Paramètres et Déconnexion (redirection vers tableau de bord).</td><td>Moyenne</td></tr>
+          <tr><td class="req-id">FR-NA-03</td><td>Page Paramètres dédiée accessible via l’URL /parametres.</td><td>Moyenne</td></tr>
+          <tr><td class="req-id">FR-NA-04</td><td>Route 404 (NotFound) pour toute URL non reconnue.</td><td>Moyenne</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.8 Mode API et persistance</h3>
+      <table>
+        <thead><tr><th>Id</th><th>Exigence</th><th>Priorité</th></tr></thead>
+        <tbody>
+          <tr><td class="req-id">FR-API-01</td><td>Si VITE_API_URL est défini : charger toutes les données depuis l’API au démarrage.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-API-02</td><td>Si VITE_API_URL est défini : toutes les créations, modifications et suppressions doivent être envoyées à l’API puis reflétées dans l’état local.</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-API-03</td><td>Si VITE_API_URL est absent : utiliser uniquement le state et le localStorage (pas d’appel réseau).</td><td>Haute</td></tr>
+          <tr><td class="req-id">FR-API-04</td><td>Afficher un bandeau de chargement pendant le chargement initial depuis l’API.</td><td>Moyenne</td></tr>
+          <tr><td class="req-id">FR-API-05</td><td>Afficher un message d’erreur (bannière) en cas d’échec de chargement ou de mutation API.</td><td>Moyenne</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="s4">
+      <h2>4. Interfaces externes</h2>
+
+      <h3>4.1 Interface utilisateur</h3>
+      <ul>
+        <li>Application web responsive (HTML5, CSS3, JavaScript).</li>
+        <li>Framework UI : React 18, React Router 7, Vite 6.</li>
+        <li>Styles : Tailwind CSS, thème « recyclage » (blanc, noir, vert, rouge, bleu) avec variables CSS (--color-primary, --color-success, --color-error, etc.).</li>
+        <li>Composants réutilisables : Header (navigation, menu utilisateur), Button, Input, Select, Checkbox, ApiStatusBanner, MetricCard.</li>
+        <li>Icônes : lucide-react.</li>
+      </ul>
+
+      <h3>4.2 API REST (backend)</h3>
+      <p>Base URL configurable (ex. <code>https://waste-track-production.up.railway.app</code>). Toutes les réponses JSON en UTF-8. CORS autorisé pour toute origine.</p>
+      <table>
+        <thead><tr><th>Méthode</th><th>Chemin</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>GET</td><td>/api/health</td><td>Santé du serveur ; réponse <code>{"ok":true}</code>.</td></tr>
+          <tr><td>GET</td><td>/api/chauffeurs</td><td>Liste des chauffeurs (id, nom, telephone).</td></tr>
+          <tr><td>POST</td><td>/api/chauffeurs</td><td>Création ; body : { nom, telephone }.</td></tr>
+          <tr><td>PUT</td><td>/api/chauffeurs/:id</td><td>Modification ; body : { nom, telephone }.</td></tr>
+          <tr><td>DELETE</td><td>/api/chauffeurs/:id</td><td>Suppression ; 204 si succès.</td></tr>
+          <tr><td>GET</td><td>/api/camions</td><td>Liste des camions (id, numero, capacite).</td></tr>
+          <tr><td>POST</td><td>/api/camions</td><td>Création ; body : { numero, capacite }.</td></tr>
+          <tr><td>PUT</td><td>/api/camions/:id</td><td>Modification.</td></tr>
+          <tr><td>DELETE</td><td>/api/camions/:id</td><td>Suppression.</td></tr>
+          <tr><td>GET</td><td>/api/unites</td><td>Liste des unités (id, nom, secteur).</td></tr>
+          <tr><td>POST</td><td>/api/unites</td><td>Création ; body : { nom, secteur }.</td></tr>
+          <tr><td>PUT</td><td>/api/unites/:id</td><td>Modification.</td></tr>
+          <tr><td>DELETE</td><td>/api/unites/:id</td><td>Suppression.</td></tr>
+          <tr><td>GET</td><td>/api/sites</td><td>Liste des sites (id, name, capacity, status).</td></tr>
+          <tr><td>POST</td><td>/api/sites</td><td>Création ; body : { name, capacity, status }.</td></tr>
+          <tr><td>PUT</td><td>/api/sites/:id</td><td>Modification.</td></tr>
+          <tr><td>DELETE</td><td>/api/sites/:id</td><td>Suppression.</td></tr>
+          <tr><td>GET</td><td>/api/tournees</td><td>Liste des tournées (id, name, chauffeurId, camionId, uniteId, status, completion, secteur, datePrevue).</td></tr>
+          <tr><td>POST</td><td>/api/tournees</td><td>Création ; body : name, chauffeurId, camionId, uniteId, status, completion, secteur, datePrevue.</td></tr>
+          <tr><td>PUT</td><td>/api/tournees/:id</td><td>Modification.</td></tr>
+          <tr><td>DELETE</td><td>/api/tournees/:id</td><td>Suppression.</td></tr>
+        </tbody>
+      </table>
+      <p>En cas d’erreur : réponse JSON <code>{"error": "message"}</code> avec code HTTP 4xx/5xx.</p>
+
+      <h3>4.3 Base de données</h3>
+      <p>MongoDB (Atlas ou instance locale). Collections : <code>chauffeurs</code>, <code>camions</code>, <code>unites</code>, <code>sites</code>, <code>tournees</code>. Identifiants : ObjectId exposés en tant que <code>id</code> (chaîne) dans l’API.</p>
+    </section>
+
+    <section id="s5">
+      <h2>5. Modèle de données</h2>
+
+      <h3>5.1 Entités</h3>
+      <table>
+        <thead><tr><th>Entité</th><th>Champs</th></tr></thead>
+        <tbody>
+          <tr><td>Chauffeur</td><td>id (UUID/ObjectId), nom (string), telephone (string)</td></tr>
+          <tr><td>Camion</td><td>id, numero (string), capacite (string, ex. "5 t")</td></tr>
+          <tr><td>Unite</td><td>id, nom (string), secteur (string)</td></tr>
+          <tr><td>Site</td><td>id, name (string), capacity (number 0–100), status (string)</td></tr>
+          <tr><td>Tournee</td><td>id, name, chauffeurId (réf.), camionId (réf.), uniteId (réf.), status, completion (0–100), secteur, datePrevue (ISO date)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>5.2 Relations</h3>
+      <p>Une tournée référence optionnellement un chauffeur, un camion et une unité (identifiants). Aucune contrainte d’intégrité référentielle côté base dans la version actuelle (suppression d’un chauffeur n’efface pas les tournées ; les références peuvent devenir orphelines).</p>
+    </section>
+
+    <section id="s6">
+      <h2>6. Exigences non fonctionnelles</h2>
+
+      <h3>6.1 Performance</h3>
+      <ul>
+        <li>Chargement initial de l’application : cible &lt; 5 s sur connexion moyenne.</li>
+        <li>Réponse API : cible &lt; 2 s pour les requêtes CRUD.</li>
+      </ul>
+
+      <h3>6.2 Sécurité</h3>
+      <ul>
+        <li>Pas d’authentification dans cette version ; l’accès est contrôlé par l’hébergeur (Netlify/Railway) et la non-exposition des secrets (variables d’environnement).</li>
+        <li>MONGODB_URI et tokens ne doivent pas être versionnés.</li>
+      </ul>
+
+      <h3>6.3 Disponibilité</h3>
+      <p>Dépend des plateformes (Netlify, Railway, MongoDB Atlas). Objectif : disponibilité standard des services cloud.</p>
+
+      <h3>6.4 Maintenabilité</h3>
+      <p>Code modulaire (composants React, contexte DataContext, client API dédié), documentation (README, DEPLOYMENT, SRS).</p>
+    </section>
+
+    <section id="s7">
+      <h2>7. Annexes</h2>
+
+      <h3>7.1 Stack technique</h3>
+      <table>
+        <thead><tr><th>Couche</th><th>Technologie</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend</td><td>React 18, Vite 6, React Router 7, Tailwind CSS, lucide-react, react-helmet</td></tr>
+          <tr><td>Backend</td><td>Node.js, Express 4, MongoDB (driver officiel)</td></tr>
+          <tr><td>Base de données</td><td>MongoDB (Atlas)</td></tr>
+          <tr><td>Hébergement</td><td>Netlify (frontend), Railway (API), MongoDB Atlas (DB)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7.2 Routes frontend (URLs)</h3>
+      <table>
+        <thead><tr><th>Chemin</th><th>Page</th></tr></thead>
+        <tbody>
+          <tr><td>/</td><td>Tableau de bord</td></tr>
+          <tr><td>/tournees</td><td>Planification des tournées</td></tr>
+          <tr><td>/sites</td><td>Sites / Centres de transfert</td></tr>
+          <tr><td>/chauffeurs</td><td>Chauffeurs</td></tr>
+          <tr><td>/camions</td><td>Camions</td></tr>
+          <tr><td>/unites</td><td>Unités opérationnelles</td></tr>
+          <tr><td>/parametres</td><td>Paramètres</td></tr>
+          <tr><td>*</td><td>NotFound (404)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7.3 Historique des révisions</h3>
+      <table>
+        <thead><tr><th>Version</th><th>Date</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>1.0</td><td>Février 2026</td><td>Version initiale – projet L3, déploiement Netlify + Railway, backend MongoDB.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--color-border); font-size: 0.875rem; color: var(--color-muted);">
+    <p>Document SRS – Gestion des déchets Cameroun (Waste Management System). À usage interne et présentation projet.</p>
+    <p><strong>Auteur :</strong> Lorenzo Eboa — Computer and Electronics Engineering, Year 3, Rousseau Higher Institute of Technology</p>
+  </footer>
+
+</body>
+</html>

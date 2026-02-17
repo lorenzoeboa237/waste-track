@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { ObjectId } = require('mongodb');
@@ -323,10 +324,32 @@ app.delete('/api/tournees/:id', async (req, res) => {
   }
 });
 
-// Santé (répond tout de suite pour que le healthcheck Railway passe)
+// Santé (répond tout de suite pour que le healthcheck Render passe)
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
+
+// Servir le frontend (build Vite) depuis le même service
+const { existsSync } = require('fs');
+const possibleDist = [
+  path.resolve(__dirname, '..', 'dist'),   // chemin absolu par rapport à server/index.js (fiable sur Render)
+  path.join(process.cwd(), 'dist'),
+];
+const distPath = possibleDist.find((p) => existsSync(p));
+if (distPath) {
+  console.log('Frontend statique servi depuis:', distPath);
+  app.use(express.static(distPath, { index: 'index.html' }));
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.join(distPath, 'index.html'), (err) => {
+      if (err) next(err);
+    });
+  });
+} else {
+  console.warn('Aucun dossier dist/ trouvé. CWD:', process.cwd(), '; __dirname:', __dirname);
+  app.get('/', (req, res) => {
+    res.status(500).send('Dossier dist/ introuvable. Vérifiez que le build a bien produit dist/ à la racine.');
+  });
+}
 
 // Démarrer le serveur tout de suite, puis connecter MongoDB en arrière-plan
 app.listen(PORT, () => {

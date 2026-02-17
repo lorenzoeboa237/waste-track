@@ -4,21 +4,38 @@ Ce guide décrit comment mettre en ligne le **frontend** (Vite/React) et l’**A
 
 ---
 
-## Déploiement rapide : Netlify + Railway
+## Déploiement fullstack sur Render (un seul service)
 
-### Étape 1 – API sur Railway
+Pour tout héberger sur **Render** dans **un seul service** (API + frontend servis ensemble), voir le **mode d'emploi dédié** :
 
-1. Va sur **[railway.app](https://railway.app)** et connecte-toi avec GitHub.
-2. **New Project** → **Deploy from GitHub repo** → choisis **lorenzoeboa237/waste-track**.
-3. Une fois le service créé, ouvre-le puis :
-   - **Settings** → **Root Directory** : indique `server` et enregistre.
-   - **Variables** (onglet **Variables** ou **Settings**) : ajoute  
-     `MONGODB_URI` = ton URI MongoDB Atlas  
-     `MONGODB_DB_NAME` = `waste_db`
-4. **Settings** → **Networking** → **Generate Domain**. Copie l’URL (ex. `https://waste-track-production-xxxx.up.railway.app`).  
-   **→ C’est l’URL de ton API**, sans slash à la fin.
+- **[Mode d'emploi – Déploiement fullstack Render](docs/MODE-EMPLOI-DEPLOIEMENT-RENDER-FULLSTACK.md)**
 
-**MongoDB Atlas :** **Network Access** → **Allow Access from Anywhere** (`0.0.0.0/0`) pour que Railway puisse se connecter.
+Le fichier `render.yaml` à la racine définit un unique Web Service ; le mode d'emploi décrit les étapes et le dépannage.
+
+---
+
+## Déploiement rapide : Netlify + Render
+
+### Étape 1 – API sur Render
+
+1. Va sur **[render.com](https://render.com)** et connecte-toi avec GitHub.
+2. **New** → **Web Service** (ou **Blueprint** si tu veux utiliser le fichier `render.yaml`).
+3. Choisis le dépôt **lorenzoeboa237/waste-track**.
+4. Si tu crées un Web Service à la main :
+   - **Root Directory** : `server`
+   - **Build Command** : `npm install`
+   - **Start Command** : `npm start`
+   - **Instance** : Free
+5. **Environment** (variables d’environnement) :
+   - `MONGODB_URI` = ton URI MongoDB Atlas (ex. `mongodb+srv://...` ; si le mot de passe contient `#`, utilise `%23`)
+   - `MONGODB_DB_NAME` = `waste_db`
+6. Crée le service. Render attribue une URL du type :  
+   `https://waste-track-api.onrender.com`  
+   **→ Copie cette URL** (sans slash à la fin) pour le frontend.
+
+**Avec Blueprint :** si le dépôt contient `render.yaml`, tu peux **New** → **Blueprint** et connecter le repo ; Render créera le service. Il te demandera la valeur de `MONGODB_URI` (sync: false).
+
+**MongoDB Atlas :** **Network Access** → **Allow Access from Anywhere** (`0.0.0.0/0`) pour que Render puisse se connecter.
 
 ---
 
@@ -26,12 +43,12 @@ Ce guide décrit comment mettre en ligne le **frontend** (Vite/React) et l’**A
 
 1. Va sur **[netlify.com](https://netlify.com)** et connecte-toi avec GitHub.
 2. **Add new site** → **Import an existing project** → **GitHub** → choisis **lorenzoeboa237/waste-track**.
-3. Netlify préremplit souvent avec `npm run build` et `dist` (grâce à `netlify.toml`). Vérifie :
+3. Netlify préremplit avec `npm run build` et `dist` (grâce à `netlify.toml`). Vérifie :
    - **Build command** : `npm run build`
    - **Publish directory** : `dist`
 4. **Add environment variables** (avant de déployer) :
    - **Key** : `VITE_API_URL`  
-   - **Value** : l’URL Railway de l’étape 1 (ex. `https://waste-track-production-xxxx.up.railway.app`) **sans slash final**.
+   - **Value** : l’URL Render de l’étape 1 (ex. `https://waste-track-api.onrender.com`) **sans slash final**.
 5. **Deploy site**. Ton app sera en `https://xxx.netlify.app`.
 
 ---
@@ -39,7 +56,7 @@ Ce guide décrit comment mettre en ligne le **frontend** (Vite/React) et l’**A
 ### Vérification
 
 - Ouvre l’URL Netlify : le tableau de bord et les listes doivent charger les données.
-- Ouvre `https://ton-url-railway/api/health` : tu dois voir `{"ok":true}`.
+- Ouvre `https://ton-url-render/api/health` : tu dois voir `{"ok":true}`.
 
 ---
 
@@ -48,7 +65,7 @@ Ce guide décrit comment mettre en ligne le **frontend** (Vite/React) et l’**A
 | Partie      | Où l’héberger | Coût   |
 |------------|----------------|--------|
 | Frontend   | Netlify | Gratuit |
-| API (Node) | Railway | Gratuit (limites) |
+| API (Node) | Render | Gratuit (Free tier) |
 | Base de données | MongoDB Atlas (déjà en place) | Gratuit (M0) |
 
 ---

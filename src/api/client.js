@@ -11,8 +11,8 @@ const getBaseUrl = () => {
 
 const api = async (path, options = {}) => {
   const base = getBaseUrl();
-  if (!base) throw new Error('VITE_API_URL non configuré');
-  const url = `${base}${path}`;
+  // Si pas de base (déploiement single-service), utiliser des URLs relatives (même origine)
+  const url = base ? `${base}${path}` : path;
   const res = await fetch(url, {
     ...options,
     headers: { 'Content-Type': 'application/json', ...options.headers },
@@ -28,7 +28,8 @@ export const apiPost = (path, body) => api(path, { method: 'POST', body: JSON.st
 export const apiPut = (path, body) => api(path, { method: 'PUT', body: JSON.stringify(body) });
 export const apiDelete = (path) => api(path, { method: 'DELETE' });
 
-export const isApiConfigured = () => !!getBaseUrl();
+// true si une URL d'API est définie OU si on est en même origine (single-service)
+export const isApiConfigured = () => true;
 
 // Ressources
 export const chauffeursApi = {
