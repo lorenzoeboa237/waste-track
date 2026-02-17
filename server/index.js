@@ -323,18 +323,21 @@ app.delete('/api/tournees/:id', async (req, res) => {
   }
 });
 
-// Santé
+// Santé (répond tout de suite pour que le healthcheck Railway passe)
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
+// Démarrer le serveur tout de suite, puis connecter MongoDB en arrière-plan
+app.listen(PORT, () => {
+  console.log(`Serveur API sur le port ${PORT}`);
+});
+
 connect()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Serveur API sur http://localhost:${PORT} (MongoDB)`);
-    });
+    console.log('MongoDB connecté');
   })
   .catch((err) => {
     console.error('Impossible de se connecter à MongoDB:', err.message);
-    process.exit(1);
+    // Ne pas quitter : le healthcheck reste vert, les routes API renverront 500 tant que MongoDB est down
   });
