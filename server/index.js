@@ -329,6 +329,15 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
+// Swagger / OpenAPI — documentation interactive à /api-docs
+const swaggerUi = require('swagger-ui-express');
+const openapiSpec = require('./openapi');
+app.get('/api-docs.json', (req, res) => res.json(openapiSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'API Gestion des déchets',
+}));
+
 // Servir le frontend (build Vite) depuis le même service
 const { existsSync } = require('fs');
 const possibleDist = [
