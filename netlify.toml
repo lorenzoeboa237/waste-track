@@ -1,0 +1,10 @@
+# Netlify – build du frontend (racine du dépôt)
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirection SPA : toutes les routes vers index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

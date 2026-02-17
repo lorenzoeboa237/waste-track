@@ -4,12 +4,51 @@ Ce guide décrit comment mettre en ligne le **frontend** (Vite/React) et l’**A
 
 ---
 
+## Déploiement rapide : Netlify + Railway
+
+### Étape 1 – API sur Railway
+
+1. Va sur **[railway.app](https://railway.app)** et connecte-toi avec GitHub.
+2. **New Project** → **Deploy from GitHub repo** → choisis **lorenzoeboa237/waste-track**.
+3. Une fois le service créé, ouvre-le puis :
+   - **Settings** → **Root Directory** : indique `server` et enregistre.
+   - **Variables** (onglet **Variables** ou **Settings**) : ajoute  
+     `MONGODB_URI` = ton URI MongoDB Atlas  
+     `MONGODB_DB_NAME` = `waste_db`
+4. **Settings** → **Networking** → **Generate Domain**. Copie l’URL (ex. `https://waste-track-production-xxxx.up.railway.app`).  
+   **→ C’est l’URL de ton API**, sans slash à la fin.
+
+**MongoDB Atlas :** **Network Access** → **Allow Access from Anywhere** (`0.0.0.0/0`) pour que Railway puisse se connecter.
+
+---
+
+### Étape 2 – Frontend sur Netlify
+
+1. Va sur **[netlify.com](https://netlify.com)** et connecte-toi avec GitHub.
+2. **Add new site** → **Import an existing project** → **GitHub** → choisis **lorenzoeboa237/waste-track**.
+3. Netlify préremplit souvent avec `npm run build` et `dist` (grâce à `netlify.toml`). Vérifie :
+   - **Build command** : `npm run build`
+   - **Publish directory** : `dist`
+4. **Add environment variables** (avant de déployer) :
+   - **Key** : `VITE_API_URL`  
+   - **Value** : l’URL Railway de l’étape 1 (ex. `https://waste-track-production-xxxx.up.railway.app`) **sans slash final**.
+5. **Deploy site**. Ton app sera en `https://xxx.netlify.app`.
+
+---
+
+### Vérification
+
+- Ouvre l’URL Netlify : le tableau de bord et les listes doivent charger les données.
+- Ouvre `https://ton-url-railway/api/health` : tu dois voir `{"ok":true}`.
+
+---
+
 ## En résumé
 
 | Partie      | Où l’héberger | Coût   |
 |------------|----------------|--------|
-| Frontend   | Vercel ou Netlify | Gratuit |
-| API (Node) | Render ou Railway | Gratuit (limites) |
+| Frontend   | Netlify | Gratuit |
+| API (Node) | Railway | Gratuit (limites) |
 | Base de données | MongoDB Atlas (déjà en place) | Gratuit (M0) |
 
 ---

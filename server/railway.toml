@@ -1,0 +1,7 @@
+# Railway – backend API uniquement (pas de build Vite)
+[build]
+buildCommand = "npm install"
+
+[deploy]
+startCommand = "node index.js"
+healthcheckPath = "/api/health"
